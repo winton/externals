@@ -11,9 +11,8 @@ module Externals
     end
     
     def install
-      return true if File.exist?(repo_path)
       FileUtils.mkdir_p checkout_path unless File.exist?(checkout_path)
-      `cd #{checkout_path} && git clone #{@repo_url} #{@name}`
+      `cd #{checkout_path} && rm -Rf #{@name} && git clone #{@repo_url} #{@name}`
       true
     end
 
