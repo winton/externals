@@ -4,8 +4,8 @@ module Externals
       @base_dir = base_dir
     end
 
-    def install
-      config.each_repo {|r| r.install }
+    def status
+      config.each_repo {|r| r.status }
     end
 
     def freezify
@@ -18,8 +18,8 @@ module Externals
 
     def run(action)
       case action
-      when "install"
-        install
+      when "status"
+        status
       when "freeze"
         freezify
       when "unfreeze"
