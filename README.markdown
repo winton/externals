@@ -34,3 +34,12 @@ externals unfreeze
 The usual flow is to unfreeze, commit to the external, freeze, and commit to the parent project.
 
 Your .git directories will be zipped and stored in /tmp when frozen, and moved back to the external when unfrozen.
+
+Are my externals frozen?
+------------------------
+
+When you want to know the status of your externals:
+
+<pre>
+externals status
+</pre>

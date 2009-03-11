@@ -37,7 +37,7 @@ module Externals
     end
     
     def status
-      puts "#{@name} is #{frozen? ? "frozen" : "not frozen"}"
+      puts "#{@name} is #{can_be_frozen? ? "not frozen" : "frozen"}"
     end
 
     def unfreezify
