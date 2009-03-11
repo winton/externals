@@ -4,7 +4,7 @@ require 'rubygems'
 require 'externals'
 
 action = ARGV[0]
-available_actions = %w(freeze unfreeze)
+available_actions = %w(install freeze unfreeze)
 unless available_actions.include?(action)
   puts "Usage: externals (#{available_actions.join(':')})"
   exit 1

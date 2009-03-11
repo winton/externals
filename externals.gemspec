@@ -10,8 +10,23 @@ Gem::Specification.new do |s|
   s.email    = 'mail@wintoni.us'
   s.homepage = 'http://github.com/winton/externals'
   
+  s.executables = ["externals"]
   s.has_rdoc = false
   
   # = MANIFEST =
+  s.files = %w[
+    MIT-LICENSE
+    README.markdown
+    Rakefile
+    bin/externals
+    changelog.markdown
+    externals.gemspec
+    lib/externals.rb
+    lib/externals/app.rb
+    lib/externals/repository.rb
+    lib/externals/yaml_config.rb
+    spec/spec.opts
+    spec/spec_helper.rb
+  ]
   # = MANIFEST =
 end

@@ -9,6 +9,13 @@ module Externals
       @repo_url = repo_url
       @rel_path = rel_path
     end
+    
+    def install
+      return true if File.exist?(repo_path)
+      FileUtils.mkdir_p checkout_path unless File.exist?(checkout_path)
+      `cd #{checkout_path} && git clone #{@repo_url} #{@name}`
+      true
+    end
 
     def freezify
       return true if frozen?
@@ -16,14 +23,14 @@ module Externals
         `tar czf #{temp_path}/#{@name}.git.tgz .git`
         FileUtils.rm_r('.git')
       end
-      `cd #{@base_dir} && git add -f #{rel_repo_path}`
       true
     end
 
     def unfreezify
       return true unless frozen?
       Dir.chdir(temp_path) do
-        `tar xzf #{@name}.git.tgz #{repo_path}/.git`
+        `tar xzf #{@name}.git.tgz`
+        FileUtils.mv(".git", repo_path)
         FileUtils.rm("#{@name}.git.tgz")
       end
       true
