@@ -1,0 +1,14 @@
+#!/usr/bin/env ruby
+
+require 'rubygems'
+require 'externals'
+
+action = ARGV[0]
+available_actions = %w(freeze unfreeze)
+unless available_actions.include?(action)
+  puts "Usage: externals (#{available_actions.join(':')})"
+  exit 1
+end
+
+app = Externals::App.new(FileUtils.pwd)
+app.run(action)
