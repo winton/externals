@@ -1,0 +1,20 @@
+require File.expand_path(File.dirname(__FILE__) + "/../spec_helper")
+
+module Externals
+  describe YamlConfig do
+    it "should create repositories from the config" do
+      config = YamlConfig.new(
+        'base_dir',
+        "rspec:\n  repo: git://rspec\n  path: vendor/plugins\n" +
+        "foo:\n  repo: git://at/foo\n  path: path/to/foo\n"
+      )
+      Repository.should_receive(:new).with(
+        'base_dir', "rspec", "git://rspec", "vendor/plugins"
+      ).and_return :a_repo
+      Repository.should_receive(:new).with(
+        'base_dir', "foo", "git://at/foo", "path/to/foo"
+      ).and_return :a_repo
+      config.each_repo { |r| r.should == :a_repo }
+    end
+  end
+end

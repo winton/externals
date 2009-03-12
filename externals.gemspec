@@ -1,7 +1,7 @@
 Gem::Specification.new do |s|
   s.name    = 'externals'
-  s.version = '0.1.4'
-  s.date    = '2008-03-11'
+  s.version = '0.1.5'
+  s.date    = '2008-03-12'
   
   s.summary     = "Work on git externals without affecting others"
   s.description = "Work on git externals without affecting others"

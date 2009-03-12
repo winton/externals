@@ -8,22 +8,20 @@ module Externals
       config.each_repo {|r| r.status }
     end
 
-    def freezify
-      config.each_repo {|r| r.freezify }
+    def freeze
+      config.each_repo {|r| r.freeze }
     end
 
-    def unfreezify
-      config.each_repo {|r| r.unfreezify }
+    def unfreeze
+      config.each_repo {|r| r.unfreeze }
     end
 
     def run(action)
-      case action
-      when "status"
-        status
-      when "freeze"
-        freezify
-      when "unfreeze"
-        unfreezify
+      available_actions = %w(status freeze unfreeze)
+      if available_actions.include?(action)
+        send(action)
+      else
+        puts "Usage: externals (#{available_actions.join(':')})"
       end
     end
 
@@ -36,10 +34,9 @@ module Externals
 
       if config_file.nil?
         $stderr.puts "config/externals.yml is missing"
-        exit 1
+      else
+        @config = YamlConfig.new(@base_dir, File.read(config_file))
       end
-
-      @config = YamlConfig.new(@base_dir, File.read(config_file))
     end
   end
 end

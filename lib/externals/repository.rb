@@ -11,71 +11,97 @@ module Externals
     end
     
     def install
-      FileUtils.mkdir_p checkout_path unless File.exist?(checkout_path)
-      `cd #{checkout_path} && rm -Rf #{@name} && git clone #{@repo_url} #{@name}`
-      puts "#{@name} unfrozen"
-      true
+      # Create directory that we will clone into
+      unless File.exist?(checkout_path)
+        FileUtils.mkdir_p(checkout_path)
+      end
+      Dir.chdir(checkout_path) do
+        # Remove repository if exists
+        FileUtils.rm_rf(@name)
+        # Clone repository
+        `git clone #{@repo_url} #{@name}`
+      end
     end
 
-    def freezify
-      install unless File.exist?(repo_path)
-      if frozen?
+    def freeze
+      install unless exists?
+      if is_not_a_git_repo?
         puts "#{@name} is already frozen"
-      elsif can_be_frozen?
+      elsif is_a_git_repo?
+        overwrite = true
+        # Conditionally destroy compressed repo
+        if is_compressed?
+          puts "You already have a frozen git snapshot. Overwrite?"
+          overwrite = STDIN.gets.downcase[0..0] == 'y'
+        end
         Dir.chdir(repo_path) do
-          `rm #{temp_path}/#{@name}.git.tgz` if can_be_unfrozen?
-          `mkdir -p #{temp_path}`
-          `tar czf #{temp_path}/#{@name}.git.tgz .git`
+          if overwrite
+            # Make temp directory
+            FileUtils.mkdir_p(temp_path)
+            # Compress .git folder to temp
+            `tar czf #{temp_path}/#{@name}.git.tgz .git`
+          end
+          # Remove repository's .git folder
           FileUtils.rm_r('.git')
         end
         puts "#{@name} frozen"
-      else
-        install
-        freezify
       end
-      true
     end
     
     def status
-      puts "#{@name} is #{can_be_frozen? ? "not frozen" : "frozen"}"
+      if exists?
+        puts "#{@name} is #{is_a_git_repo? ? "not frozen" : "frozen and #{is_compressed? ? "has" : "does not have"} a snapshot"}"
+      else
+        puts "#{@name} does not exist and #{is_compressed? ? "has" : "does not have"} a snapshot"
+      end
     end
 
-    def unfreezify
-      install unless File.exist?(repo_path)
-      if unfrozen?
+    def unfreeze
+      if is_a_git_repo?
         puts "#{@name} is already unfrozen"
-      elsif can_be_unfrozen?
-        Dir.chdir(temp_path) do
-          `tar xzf #{@name}.git.tgz`
-          FileUtils.mv(".git", repo_path)
-          FileUtils.rm("#{@name}.git.tgz")
-        end
-        Dir.chdir(repo_path) do
-          `git reset --hard`
+      elsif !exists?
+        install
+        puts "#{@name} unfrozen"
+      elsif is_not_a_git_repo?
+        if is_compressed?
+          Dir.chdir(temp_path) do
+            # Decompress git snapshot
+            `tar xzf #{@name}.git.tgz`
+            # Move back to repo
+            FileUtils.mv(".git", repo_path)
+            # Remove snapshot
+            FileUtils.rm_f("#{@name}.git.tgz")
+          end
+          # Reset repository to snapshot
+          Dir.chdir(repo_path) do
+            `git reset --hard`
+          end
+        else
+          # Clone fresh repo if no snapshot found
+          install
         end
         puts "#{@name} unfrozen"
-      else
-        install
       end
-      true
     end
     
-    def can_be_frozen?
+    def exists?
+      File.exist?(repo_path)
+    end
+    
+    def is_a_git_repo?
       File.exist?("#{repo_path}/.git")
     end
     
-    def can_be_unfrozen?
-      File.exists?("#{temp_path}/#{@name}.git.tgz")
+    def is_not_a_git_repo?
+      !is_a_git_repo?
     end
-
-    def frozen?
-      !File.exist?("#{repo_path}/.git") &&
+    
+    def is_compressed?
       File.exists?("#{temp_path}/#{@name}.git.tgz")
     end
     
-    def unfrozen?
-      File.exist?("#{repo_path}/.git") &&
-      !File.exists?("#{temp_path}/#{@name}.git.tgz")
+    def is_not_compressed?
+      !is_compressed?
     end
 
     private
@@ -85,10 +111,6 @@ module Externals
 
     def repo_path
       File.expand_path(checkout_path + '/' + @name)
-    end
-
-    def rel_repo_path
-      @rel_path + '/' + @name
     end
     
     def temp_path
