@@ -50,6 +50,9 @@ module Externals
           FileUtils.mv(".git", repo_path)
           FileUtils.rm("#{@name}.git.tgz")
         end
+        Dir.chdir(repo_path) do
+          `git reset --hard`
+        end
         puts "#{@name} unfrozen"
       else
         install
