@@ -37,8 +37,8 @@ externals unfreeze
 If you only want to freeze one of the items in config/externals.yml
 
 <pre>
-external freeze acts_as_archive
-external unfreeze acts_as_archive
+externals freeze acts_as_archive
+externals unfreeze acts_as_archive
 </pre>
 
 The usual flow is to unfreeze, commit to the external, freeze, and commit to the parent project.
