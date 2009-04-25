@@ -1,6 +1,6 @@
 Gem::Specification.new do |s|
   s.name    = 'externals'
-  s.version = '0.1.5'
+  s.version = '0.1.6'
   s.date    = '2008-03-12'
   
   s.summary     = "Work on git externals without affecting others"
@@ -25,6 +25,9 @@ Gem::Specification.new do |s|
     lib/externals/app.rb
     lib/externals/repository.rb
     lib/externals/yaml_config.rb
+    spec/bin/externals_spec.rb
+    spec/lib/app_spec.rb
+    spec/lib/yaml_config_spec.rb
     spec/spec.opts
     spec/spec_helper.rb
   ]

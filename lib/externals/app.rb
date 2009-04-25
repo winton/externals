@@ -4,24 +4,25 @@ module Externals
       @base_dir = base_dir
     end
 
-    def status
-      config.each_repo {|r| r.status }
+    def status(filtr = nil)
+      config.each_repo(filtr) {|r| r.status }
     end
 
-    def freeze
-      config.each_repo {|r| r.freeze }
+    def freeze(filtr = nil)
+      config.each_repo(filtr) {|r| r.freeze }
     end
 
-    def unfreeze
-      config.each_repo {|r| r.unfreeze }
+    def unfreeze(filtr = nil)
+      config.each_repo(filtr) {|r| r.unfreeze }
     end
 
-    def run(action)
+    def run(action, filtr_str = nil)
       available_actions = %w(status freeze unfreeze)
       if available_actions.include?(action)
-        send(action)
+        filtr = Regexp.new(filtr_str) if filtr_str
+        send(action, filtr)
       else
-        puts "Usage: externals (#{available_actions.join(':')})"
+        puts "Usage: externals (#{available_actions.join(':')}) optional_regex_string"
       end
     end
 

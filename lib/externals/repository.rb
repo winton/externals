@@ -9,6 +9,7 @@ module Externals
       @repo_url = repo_url
       @rel_path = rel_path
     end
+    attr_reader :name
     
     def install
       # Create directory that we will clone into

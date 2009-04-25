@@ -7,8 +7,8 @@ module Externals
       @config_hash = YAML.load yaml_string
     end
 
-    def each_repo
-      repositories.each { |r| yield(r) if block_given? }
+    def each_repo(filtr = nil)
+      repositories.each { |r| yield(r) if block_given? and (!filtr or filtr.match(r.name)) }
     end
 
     private

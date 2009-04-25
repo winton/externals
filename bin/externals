@@ -4,4 +4,4 @@ require 'rubygems'
 require 'externals'
 
 app = Externals::App.new(FileUtils.pwd)
-app.run(ARGV[0])
+app.run(ARGV[0], ARGV[1])
