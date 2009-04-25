@@ -7,6 +7,7 @@ module Externals
     def status(filtr = nil)
       config.each_repo(filtr) {|r| r.status }
     end
+    alias_method :st, :status
 
     def freeze(filtr = nil)
       config.each_repo(filtr) {|r| r.freeze }
