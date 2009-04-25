@@ -19,6 +19,9 @@ Create *config/externals.yml*:
 pa_stats:
   repo: git@github.com:br/pa_stats.git
   path: vendor/gems
+acts_as_archive:
+  repo: git@github.com:winton/acts_as_archive.git
+  path: vendor/plugins
 </pre>
 
 Freeze or unfreeze
@@ -29,6 +32,13 @@ You can run either of these for the first time, depending on what you want:
 <pre>
 externals freeze
 externals unfreeze
+</pre>
+
+If you only want to freeze one of the items in config/externals.yml
+
+<pre>
+external freeze acts_as_archive
+external unfreeze acts_as_archive
 </pre>
 
 The usual flow is to unfreeze, commit to the external, freeze, and commit to the parent project.
