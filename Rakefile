@@ -1,31 +1,48 @@
+require 'rubygems'
 require 'rake'
+require 'rake/gempackagetask'
+require 'spec/rake/spectask'
 
-task :default => 'externals.gemspec'
+GEM_NAME = 'externals'
+PKG_FILES = FileList['**/*'] - FileList['coverage', 'coverage/**/*', 'pkg', 'pkg/**/*']
 
-file 'externals.gemspec' => FileList['{lib,spec}/**','Rakefile'] do |f|
-  # read spec file and split out manifest section
-  spec = File.read(f.name)
-  parts = spec.split("  # = MANIFEST =\n")
-  fail 'bad spec' if parts.length != 3
-  # determine file list from git ls-files
-  files = `git ls-files`.
-    split("\n").
-    sort.
-    reject{ |file| file =~ /^\./ }.
-    reject { |file| file =~ /^doc/ }.
-    map{ |file| "    #{file}" }.
-    join("\n")
-  # piece file back together and write...
-  parts[1] = "  s.files = %w[\n#{files}\n  ]\n"
-  spec = parts.join("  # = MANIFEST =\n")
-  File.open(f.name, 'w') { |io| io.write(spec) }
-  puts "Updated #{f.name}"
+spec = Gem::Specification.new do |s|
+  s.author = "Winton Welsh"
+  s.email = "mail@wintoni.us"
+  s.executables << GEM_NAME
+  s.extra_rdoc_files = [ "README.markdown" ]
+  s.files = PKG_FILES.to_a
+  s.has_rdoc = false
+  s.homepage = "http://github.com/winton/#{GEM_NAME}"
+  s.name = GEM_NAME
+  s.platform = Gem::Platform::RUBY
+  s.require_path = "lib"
+  s.summary = "Work on git externals without affecting others"
+  s.version = "1.0.0"
 end
 
-# sudo rake install
+desc "Package gem"
+Rake::GemPackageTask.new(spec) do |pkg|
+  pkg.gem_spec = spec
+end
+
+desc "Install gem"
 task :install do
-  `sudo gem uninstall externals -x`
-  `gem build externals.gemspec`
-  `sudo gem install externals*.gem`
-  `rm externals*.gem`
+  Rake::Task['gem'].invoke
+  `sudo gem uninstall #{GEM_NAME} -x`
+  `sudo gem install pkg/#{GEM_NAME}*.gem`
+  `rm -Rf pkg`
+end
+
+desc "Generate gemspec"
+task :gemspec do
+  File.open("#{File.dirname(__FILE__)}/#{GEM_NAME}.gemspec", 'w') do |f|
+    f.write(spec.to_ruby)
+  end
+end
+
+desc "Run specs"
+Spec::Rake::SpecTask.new do |t|
+  t.spec_opts = ["--format", "specdoc", "--colour"]
+  t.spec_files = FileList["spec/**/*_spec.rb"]
 end

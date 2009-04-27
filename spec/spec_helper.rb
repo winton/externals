@@ -1,5 +1,11 @@
+$TESTING = true
 $:.unshift(File.dirname(__FILE__) + '/../lib')
 
-require 'rubygems'
 require 'externals'
-require 'spec'
+require 'pp'
+
+def debug(object)
+  puts "<pre>"
+  pp object
+  puts "</pre>"
+end
