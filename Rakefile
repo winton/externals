@@ -17,7 +17,7 @@ spec = Gem::Specification.new do |s|
   s.name = GEM_NAME
   s.platform = Gem::Platform::RUBY
   s.require_path = "lib"
-  s.summary = "Work on git externals without affecting others"
+  s.summary = "Quickly freeze and unfreeze external git dependencies"
   s.version = "1.0.0"
 end
 

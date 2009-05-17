@@ -16,12 +16,12 @@ Configuration
 Create *config/externals.yml*:
 
 <pre>
-pa_stats:
-  repo: git@github.com:br/pa_stats.git
-  path: vendor/gems
 acts_as_archive:
-  repo: git@github.com:winton/acts_as_archive.git
+  repo: git://github.com/winton/acts_as_archive.git
   path: vendor/plugins
+rails:
+  repo: git://github.com/rails/rails.git
+  path: vendor
 </pre>
 
 Freeze or unfreeze

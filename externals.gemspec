@@ -6,7 +6,7 @@ Gem::Specification.new do |s|
 
   s.required_rubygems_version = Gem::Requirement.new(">= 0") if s.respond_to? :required_rubygems_version=
   s.authors = ["Winton Welsh"]
-  s.date = %q{2009-04-27}
+  s.date = %q{2009-05-16}
   s.default_executable = %q{externals}
   s.email = %q{mail@wintoni.us}
   s.executables = ["externals"]
@@ -15,7 +15,7 @@ Gem::Specification.new do |s|
   s.homepage = %q{http://github.com/winton/externals}
   s.require_paths = ["lib"]
   s.rubygems_version = %q{1.3.1}
-  s.summary = %q{Work on git externals without affecting others}
+  s.summary = %q{Quickly freeze and unfreeze external git dependencies}
 
   if s.respond_to? :specification_version then
     current_version = Gem::Specification::CURRENT_SPECIFICATION_VERSION
