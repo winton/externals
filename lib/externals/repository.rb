@@ -94,10 +94,6 @@ module Externals
             # Remove snapshot
             FileUtils.rm_f("#{@name}.git.tgz")
           end
-          # Reset repository to snapshot
-          Dir.chdir(repo_path) do
-            `git reset --hard` unless $TESTING
-          end
         else
           # Clone fresh repo if no snapshot found
           install
