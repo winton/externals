@@ -19,7 +19,7 @@ module Externals
     def freeze
       install unless exists?
       if is_not_a_git_repo?
-        puts "#{@name} is already frozen"
+        puts "already frozen: #{@name}"
       elsif is_a_git_repo?
         overwrite = true
         # Conditionally destroy compressed repo
@@ -37,7 +37,7 @@ module Externals
           # Remove repository's .git folder
           FileUtils.rm_r('.git')
         end
-        puts "#{@name} frozen"
+        puts "frozen: #{@name}"
       end
     end
     
@@ -72,15 +72,15 @@ module Externals
     
     def status
       if exists?
-        puts "#{@name} is #{is_a_git_repo? ? "not frozen" : "frozen and #{is_compressed? ? "has" : "does not have"} a snapshot"}"
+        puts "#{is_a_git_repo? ? "not frozen" : "frozen and #{is_compressed? ? "has" : "does not have"} a snapshot"}: #{@name}"
       else
-        puts "#{@name} does not exist and #{is_compressed? ? "has" : "does not have"} a snapshot"
+        puts "does not exist and #{is_compressed? ? "has" : "does not have"} a snapshot: #{@name}"
       end
     end
 
     def unfreeze
       if is_a_git_repo?
-        puts "#{@name} is already unfrozen"
+        puts "already unfrozen: #{@name}"
       elsif !exists?
         install
         puts "#{@name} unfrozen"
@@ -98,7 +98,7 @@ module Externals
           # Clone fresh repo if no snapshot found
           install
         end
-        puts "#{@name} unfrozen"
+        puts "unfrozen: #{@name}"
       end
     end
 

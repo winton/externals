@@ -10,12 +10,10 @@ module Externals
       if config_path && File.exists?(config_path)
         config = YAML.load(File.read(config_path))
         @repositories = config.map do |name, attributes|
-          Repository.new(
-            @base_dir,
-            name,
-            attributes["repo"],
-            attributes["path"]
-          )
+          Repository.new(@base_dir, name, attributes["repo"], attributes["path"])
+        end
+        @repositories = @repositories.sort do |a, b|
+          a.name <=> b.name
         end
       else
         $stderr.puts "config/externals.yml is missing"

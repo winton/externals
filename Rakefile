@@ -18,7 +18,7 @@ spec = Gem::Specification.new do |s|
   s.platform = Gem::Platform::RUBY
   s.require_path = "lib"
   s.summary = "Quickly freeze and unfreeze external git dependencies"
-  s.version = "1.0.1"
+  s.version = "1.0.2"
 end
 
 desc "Package gem"

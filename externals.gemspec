@@ -2,11 +2,11 @@
 
 Gem::Specification.new do |s|
   s.name = %q{externals}
-  s.version = "1.0.1"
+  s.version = "1.0.2"
 
   s.required_rubygems_version = Gem::Requirement.new(">= 0") if s.respond_to? :required_rubygems_version=
   s.authors = ["Winton Welsh"]
-  s.date = %q{2009-05-20}
+  s.date = %q{2009-05-28}
   s.default_executable = %q{externals}
   s.email = %q{mail@wintoni.us}
   s.executables = ["externals"]
