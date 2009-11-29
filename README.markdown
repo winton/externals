@@ -12,7 +12,7 @@ Installation
 ------------
 
 <pre>
-sudo gem install winton-externals
+sudo gem install externals --source http://gemcutter.org
 </pre>
 
 Configuration
