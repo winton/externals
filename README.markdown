@@ -3,6 +3,11 @@ Externals
 
 Quickly freeze and unfreeze external git dependencies.
 
+Compatibility
+-------------
+
+Tested with Ruby 1.8.6, 1.8.7, and 1.9.1.
+
 Installation
 ------------
 
