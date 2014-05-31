@@ -12,7 +12,7 @@ Installation
 ------------
 
 <pre>
-sudo gem install externals --source http://gemcutter.org
+gem install externals
 </pre>
 
 Configuration
